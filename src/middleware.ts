@@ -22,10 +22,15 @@ export function middleware(req: NextRequest) {
   
   // Define main domains that should NOT be treated as tenants
   const hostWithoutPort = hostname.split(':')[0];
+  
+  // Check if host is an IP address
+  const isIpAddress = /^(?:[0-9]{1,3}\\.){3}[0-9]{1,3}$/.test(hostWithoutPort);
+  
   const isMainDomain =
     hostWithoutPort === 'localhost' ||
     hostWithoutPort === 'skoelx.com' ||
-    hostWithoutPort === 'www.skoelx.com';
+    hostWithoutPort === 'www.skoelx.com' ||
+    isIpAddress;
 
   // Extract the subdomain if it exists
   const subdomain = isMainDomain ? null : hostname.split('.')[0];
