@@ -25,16 +25,8 @@ export default function LoginPage() {
         
         const user = response.data.user;
         if (user.role === 'SCHOOL_ADMIN' && user.subdomain) {
-            // Check if we are already on a subdomain or localhost
-            const host = window.location.hostname;
             const sub = user.subdomain.replace(/^\//, '');
-            if (host === 'localhost') {
-                // If using localhost without subdomains (simple test), we can just route to /domain/dashboard
-                window.location.href = `/${sub}/dashboard`;
-            } else {
-                // If using actual domain like skoelx.com, redirect to subdomain
-                window.location.href = `http://${sub}.${host}:${window.location.port}/dashboard`;
-            }
+            window.location.href = `/${sub}/dashboard`;
         } else {
             // Superadmin dashboard (doesn't exist yet, but route to /admin for now or show error)
             window.location.href = '/admin';
